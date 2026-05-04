@@ -4,6 +4,7 @@
         "express-session": "^1.19.0"
     },
     "scripts": {
+        "build": "npm install",
         "dev": "node --watch index"
     }
 }
