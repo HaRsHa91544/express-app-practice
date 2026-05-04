@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        :root {
+            --black: black;
+            --grey: grey;
+            --red: rgb(180, 0, 0);
+            --yellow: rgb(255, 255, 50);
+            --white: white;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        html {
+            scrollbar-width: thin;
+            scroll-behavior: smooth;
+            scrollbar-color: var(--yellow) var(--black);
+        }
+
+        body {
+            background-color: var(--yellow);
+        }
+
+        main {
+            padding: clamp(1.5rem, 2vw, 2rem);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: clamp(3rem, 4vw, 4rem);
+        }
+
+        .todolist-heading {
+            font-size: clamp(2.5rem, 8vw, 6rem);
+            text-align: center;
+            font-weight: 1000;
+            font-style: italic;
+        }
+
+        .todolist-login-section {
+            display: flex;
+            flex-flow: column wrap;
+            gap: clamp(1rem, 2vw, 2rem);
+        }
+
+        .login-input {
+            padding: clamp(0.75rem, 2vw, 1rem) 2rem;
+            background-color: rgb(250, 250, 250);
+            color: var(--black);
+            transition: all 0.3s ease-in-out;
+            border: 2px solid var(--grey);
+            outline: none;
+            font-size: clamp(0.95rem, 2vw, 1rem);
+        }
+
+        .login-input:focus {
+            box-shadow: 0px 0px 3px gray;
+            border: 2px solid var(--black);
+        }
+
+        .login-btn {
+            padding: clamp(0.75rem, 2vw, 1rem) 2rem;
+            font-size: clamp(0.95rem, 2vw, 1rem);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .login-btn {
+            background-color: var(--black);
+            color: var(--white);
+            border: 2px solid var(--black);
+        }
+
+        .login-btn:hover {
+            border: 2px solid var(--white);
+            box-shadow: 0px 0px 3px var(--grey);
+        }
+
+        .login-btn:active {
+            background-color: rgb(50, 50, 50);
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <h1 class="todolist-heading">Nee Todo List Kavala?</h1>
+        <section class="todolist-login-section">
+            <input class="login-input username-input" type="text" placeholder="Username enter chey bhai!">
+            <input class="login-input password-input" type="password" placeholder="Password bhai password!">
+            <button class="login-btn">Login chey anna!</button>
+        </section>
+    </main>
+    <script>
+        const loginBtn = document.querySelector('.login-btn');
+        loginBtn.addEventListener('click', () => {
+            const username = document.querySelector('.username-input').value;
+            const password = document.querySelector('.password-input').value;
+
+            fetch('./check-user', {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            }).then(handleResponse);
+
+        });
+
+        function handleResponse(res) {
+            if (!res.ok) {
+                res.json().then(showErrorMessage);
+                return;
+            }
+            location.href = './todo-list';
+        }
+
+        function showErrorMessage(error) {
+            alert(error.message);
+        }
+    </script>
+</body>
+
+</html>
